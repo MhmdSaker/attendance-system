@@ -1,3 +1,5 @@
 django
 django-jazzmin
 Pillow
+django-import-export
+django-jazzmin
