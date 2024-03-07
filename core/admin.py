@@ -1,5 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
+from import_export import resources
 
 # Register your models here.
 
@@ -10,8 +11,12 @@ from .models import (
   Course
   )
 
+
+
+
+
 class StudentAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
-  list_display = ("name","faculty","levels", "Date_ofj","aca_id" , "password")
+  list_display = ("aca_id","name","faculty","levels", "Date_ofj")
   list_filter  = (
                   "levels",
                   "faculty"
@@ -40,6 +45,10 @@ class StudentAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
     "Attnder",
     'add_data_from_excel'
   )
+
+
+  
+
 class InstructorAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
   
   list_display = (
@@ -52,6 +61,14 @@ class InstructorAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
   
 
 class CourseAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
+  list_display = (
+    "coden",
+    "name",
+    "Term",
+    "level",
+    "student_in_course"
+
+  )
   fields = (
     
     "name",
@@ -73,7 +90,7 @@ class CourseAdminStyle(ImportExportModelAdmin,admin.ModelAdmin):
 
 
 admin.site.index_title = "New Mansoura University"
-admin.site.site_header = "NMU"
+admin.site.site_header = "New Mansoura University"
 admin.site.site_title = "NMU"
 
 

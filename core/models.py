@@ -59,7 +59,7 @@ except:
 
 class Instructor(models.Model):
   
-  name    = models.CharField(max_length=255, verbose_name="Intructor name")
+  name    = models.CharField(max_length=255, verbose_name="Instructor name")
   ins_course  = models.ManyToManyField('core.Course', blank=True, )
 
   def __str__(self):
@@ -77,15 +77,15 @@ class  Course(models.Model):
 
 
 
-  name          = models.CharField(max_length=255, verbose_name="Course name")
-  coden         = models.CharField(max_length=255,   verbose_name="Code name", default="palce holder")
-  inst          = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True)
+  name          = models.CharField(max_length=255, verbose_name="Course Name")
+  coden         = models.CharField(max_length=255,   verbose_name="Code Name")
+  inst          = models.ForeignKey(Instructor, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Instructor")
   Term          = models.CharField(choices=li, max_length=255, blank=True, null=True)
   starting_date = models.DateField(default=datetime.datetime.now, blank=True, null=True, editable=False)
   ending_date   = models.DateField(default=datetime.datetime.now, blank=True, null=True, editable=False)
   Days          = models.ManyToManyField(Days, blank=True)
-  level         = models.ForeignKey(Level, null=True, blank=True, on_delete=models.SET_NULL)
-  faculty       = models.ForeignKey('core.Faculty', null=True, blank=True, on_delete=models.SET_NULL)
+  level         = models.ForeignKey(Level, null=True, blank=True,verbose_name = "Levels", on_delete=models.SET_NULL)
+  faculty       = models.ForeignKey('core.Faculty', null=True, blank=True, on_delete=models.SET_NULL, verbose_name="Faculties")
   
   # 
   def __str__(self):
@@ -145,9 +145,9 @@ class  Course(models.Model):
       super().save_model(request, obj, form, changed)
   # 
   def attending_table(self):
-    
-    
-    return mark_safe(f'''
+
+    if self.pk is not None:
+      return mark_safe(f'''
                      <a target="popup" href="{reverse("attend-grid", args=[self.pk])}" class='sp'>View attendants</a>
                      '''+'''
                      <script> 
@@ -155,6 +155,11 @@ class  Course(models.Model):
                       mylink.addEventListener('click', ()=>{
                       window.open(mylink.getAttribute("href"), 'popup','width=600,height=600'); return false; 
           }) </script>''')
+    else:
+      return "No attendants available"
+    
+    
+    
   
   
 
@@ -176,7 +181,7 @@ class Student(models.Model):
     
   name      = models.CharField(max_length=255, verbose_name="Student name")
   aca_id    = models.CharField(max_length=255, verbose_name="ID", blank=True, null=True, )
-  aca_em    = models.EmailField(verbose_name="Student email", blank=True, null=True)
+  aca_em    = models.EmailField(verbose_name="Student Email", blank=True, null=True)
   password  = models.CharField(
     blank=True, null=True,
     verbose_name="Student password",

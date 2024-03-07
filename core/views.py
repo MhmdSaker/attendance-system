@@ -243,21 +243,3 @@ def index(req):
   return redirect('/admin')
 
 
-''' 
-l ={
-  "name" : "omarrrar",
-  "age" : 19
-
-
-
-
-
-}
-
-for i in l:
-  print(f"key is {i}  and value is {l[i]}")
-
-
-  "name
-  "age
-'''
